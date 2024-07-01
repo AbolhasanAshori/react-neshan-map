@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.1](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.2.0...v0.2.1) (2024-07-01)
+
+### Bug Fixes
+
+- change npm registry from local to network ([d46154f](https://github.com/AbolhasanAshori/react-neshan-map/commit/d46154f67d6f49fa68eeb7ba2e1af856fb2565d6))
+
 ## [0.2.0](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.1.0...v0.2.0) (2024-07-01)
 
 ### Features

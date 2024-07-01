@@ -38,6 +38,8 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
     className,
     center,
     zoom,
+    minZoom,
+    maxZoom,
     fullscreen,
     ...options
   } = props;
@@ -72,7 +74,9 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
     const map = new NmpMap({
       ...options,
       center,
-      zoom,
+      zoom: zoom ?? 0,
+      minZoom: !minZoom || minZoom < 2 ? 2 : minZoom,
+      maxZoom: !maxZoom || maxZoom > 17 ? 17 : maxZoom,
       container,
     }) as unknown as MbMap;
 

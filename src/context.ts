@@ -1,14 +1,13 @@
 import { createContext, useContext } from 'react';
-import type { default as NeshanMap } from '@neshan-maps-platform/mapbox-gl/dist/src/core/Map';
-import type { Marker as NmpMarker } from 'mapbox-gl';
+import type { Map, Marker as NmpMarker } from 'mapbox-gl';
 import type { Context } from 'react';
 
 interface MapContextInterface {
-  map: NeshanMap;
+  map: Map;
   marker?: NmpMarker;
 }
 
-function createNeshanContext(map: NeshanMap): MapContextInterface {
+function createNeshanContext(map: Map): MapContextInterface {
   return { map };
 }
 

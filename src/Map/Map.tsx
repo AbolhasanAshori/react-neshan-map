@@ -13,13 +13,12 @@ import {
 } from 'react';
 import { MapProvider, createNeshanContext } from '@/context';
 import type { MapContextInterface } from '@/context';
-import type SDKMap from '@neshan-maps-platform/mapbox-gl/dist/src/core/Map';
 import type { MapBoxSKDOptionsModel } from '@neshan-maps-platform/mapbox-gl/dist/src/parameters/parameters';
 import type { Map as MbMap } from 'mapbox-gl';
 import type { CSSProperties, PropsWithChildren, Ref } from 'react';
 import '@neshan-maps-platform/mapbox-gl/dist/NeshanMapboxGl.css';
 
-type MapType = SDKMap;
+type MapType = MbMap;
 
 interface MapProps
   extends Omit<MapBoxSKDOptionsModel, 'container' | 'style'>,
@@ -92,7 +91,7 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
       map.addControl(new FullscreenControl());
     }
 
-    setContext(createNeshanContext(map as unknown as MapType));
+    setContext(createNeshanContext(map));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ref callback
   }, []);
 

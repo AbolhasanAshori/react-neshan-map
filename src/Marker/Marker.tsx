@@ -1,4 +1,5 @@
 import { Marker as NmpMarker } from '@neshan-maps-platform/mapbox-gl';
+import { createMapElement } from '@/element';
 import { createMarkerComponent } from './util';
 import type { Coordination } from '@/types';
 import type {
@@ -7,17 +8,19 @@ import type {
 } from 'mapbox-gl';
 import type { PropsWithChildren } from 'react';
 
+type MarkerType = NmpMarkerType;
+
 interface MarkerProps extends NmpMarkerOptions, PropsWithChildren {
   lngLat: Coordination;
 }
 
 const Marker = createMarkerComponent(
-  function createMarker(props: MarkerProps): NmpMarkerType {
+  function createMarker(props, context) {
     const { lngLat, ...other } = props;
     const marker = new NmpMarker(other);
     marker.setLngLat(lngLat);
 
-    return marker;
+    return createMapElement(marker, context);
   },
   function updateMarker(marker, props, prevProps) {
     if (props.lngLat !== prevProps.lngLat) {
@@ -57,4 +60,4 @@ const Marker = createMarkerComponent(
 );
 
 export default Marker;
-export type { MarkerProps };
+export type { MarkerProps, MarkerType };

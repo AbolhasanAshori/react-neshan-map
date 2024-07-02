@@ -1,23 +1,26 @@
 import { forwardRef, useEffect, useImperativeHandle } from 'react';
-import { MapProvider, useNeshanContext } from '@/context';
+import { MapProvider } from '@/context';
 import { createElementHook } from '@/element';
-import type { MarkerProps } from './Marker';
+import { createElementRef } from '@/ref';
+import type { MarkerProps, MarkerType } from './Marker';
 import type { MapContextInterface } from '@/context';
-import type { CreateElementFn, ElementHook, UpdateElementFn } from '@/element';
-import type { Map, Marker as NmpMarkerType } from 'mapbox-gl';
 import type {
-  Ref,
-  ReactNode,
-  ForwardRefExoticComponent,
-  RefAttributes,
-} from 'react';
+  ComponentElementHook,
+  CreateElementFn,
+  MapElement,
+  UpdateElementFn,
+} from '@/element';
+import type { MapComponent } from '@/types';
+import type { Map } from 'mapbox-gl';
+import type { Ref, ReactNode } from 'react';
 
 function useMarkerLifeCycle(
-  marker: NmpMarkerType,
+  element: MapElement<MarkerType>,
   context: MapContextInterface
 ): void {
   useEffect(
     function addMarker() {
+      const { instance: marker } = element;
       const { map } = context;
 
       marker.addTo(map as unknown as Map);
@@ -26,32 +29,18 @@ function useMarkerLifeCycle(
         marker.remove();
       };
     },
-    [marker, context]
+    [context, element]
   );
 }
 
-function createMarkerRef(
-  useElement: ElementHook<NmpMarkerType, MarkerProps>
-): (props: MarkerProps) => ReturnType<ElementHook<NmpMarkerType, MarkerProps>> {
-  return function useMarkerRef(props) {
-    const context = useNeshanContext();
-    const markerRef = useElement(props, context);
-
-    useMarkerLifeCycle(markerRef.current, context);
-
-    return markerRef;
-  };
-}
-
 function createMarkerContainer(
-  useMarker: ElementHook<NmpMarkerType, MarkerProps>
-): ForwardRefExoticComponent<MarkerProps & RefAttributes<NmpMarkerType>> {
+  useMarker: ComponentElementHook<MarkerType, MarkerProps>
+): MapComponent<MarkerType, MarkerProps> {
   function MarkerContainer(
     props: MarkerProps,
-    ref: Ref<NmpMarkerType>
+    ref: Ref<MarkerType>
   ): ReactNode {
-    const context = useNeshanContext();
-    const marker = useMarker(props, context).current;
+    const { instance: marker, context } = useMarker(props).current;
 
     useImperativeHandle(ref, () => marker);
 
@@ -70,11 +59,11 @@ function createMarkerContainer(
 }
 
 function createMarkerComponent(
-  createElement: CreateElementFn<NmpMarkerType, MarkerProps>,
-  updateElement: UpdateElementFn<NmpMarkerType, MarkerProps>
-): ForwardRefExoticComponent<MarkerProps & RefAttributes<NmpMarkerType>> {
+  createElement: CreateElementFn<MarkerType, MarkerProps>,
+  updateElement: UpdateElementFn<MarkerType, MarkerProps>
+): MapComponent<MarkerType, MarkerProps> {
   const useMarkerHook = createElementHook(createElement, updateElement);
-  const useMarkerRef = createMarkerRef(useMarkerHook);
+  const useMarkerRef = createElementRef(useMarkerHook, useMarkerLifeCycle);
   return createMarkerContainer(useMarkerRef);
 }
 

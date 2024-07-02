@@ -1,0 +1,6 @@
+{
+  "git.inputValidation": true,
+  "git.inputValidationLength": 72,
+  "git.inputValidationSubjectLength": 72,
+  "git.allowNoVerifyCommit": true
+}

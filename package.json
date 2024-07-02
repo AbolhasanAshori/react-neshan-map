@@ -23,6 +23,10 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts",
+    "check": "npm run check:format && npm run check:lint && npm run check:type",
+    "check:format": "prettier ./src --check",
+    "check:lint": "npm run lint",
+    "check:type": "tsc --noEmit",
     "commitlint": "commitlint --edit",
     "dev": "npm run watch",
     "format": "eslint --fix ./src && prettier --write ./src",
@@ -30,7 +34,6 @@
     "precommit": "lint-staged",
     "prepare": "husky",
     "release": "commit-and-tag-version",
-    "typecheck": "tsc --noEmit",
     "watch": "tsup src/index.ts --watch"
   },
   "devDependencies": {

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.3.1](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.3.0...v0.3.1) (2024-07-02)
+
+### Bug Fixes
+
+- add the missing exports ([d98f385](https://github.com/AbolhasanAshori/react-neshan-map/commit/d98f3854a9cb5b8462a668b7d7c49612074fbee9))
+
 ## [0.3.0](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.2.3...v0.3.0) (2024-07-02)
 
 ### Features

@@ -45,7 +45,7 @@ const Popup = createPopupComponent(
         } else {
           marker.setPopup(popup);
           if (show && !popup.isOpen()) {
-            marker.togglePopup();
+            marker.getPopup().addTo(map);
           }
         }
 

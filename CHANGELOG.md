@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.3.0](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.2.3...v0.3.0) (2024-07-02)
+
+### Features
+
+- implement popup component ([56db695](https://github.com/AbolhasanAshori/react-neshan-map/commit/56db6959f290afc4f9cc065dde750718b62f3638))
+
 ## [0.2.3](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.2.2...v0.2.3) (2024-07-01)
 
 ## [0.2.2](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.2.1...v0.2.2) (2024-07-01)

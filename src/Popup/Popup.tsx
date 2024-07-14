@@ -2,7 +2,7 @@ import { Popup as NmpPopup } from '@neshan-maps-platform/mapbox-gl';
 import { useEffect } from 'react';
 import { createMapElement } from '@/element';
 import { createPopupComponent } from './util';
-import type { Coordination } from '@/types';
+import type { LngLat } from '@/types';
 import type {
   PopupOptions as NmpPopupOptions,
   Popup as NmpPopupType,
@@ -13,7 +13,7 @@ type PopupType = NmpPopupType;
 
 interface PopupProps extends NmpPopupOptions, PropsWithChildren {
   show?: boolean;
-  lngLat?: Coordination;
+  lngLat?: LngLat;
 }
 
 const Popup = createPopupComponent(

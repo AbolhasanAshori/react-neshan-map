@@ -1,4 +1,4 @@
-import { Marker } from 'mapbox-gl';
+import { Marker } from '@neshan-maps-platform/mapbox-gl';
 import { forwardRef, useImperativeHandle } from 'react';
 import { MapProvider } from './context';
 import type { ComponentElementHook } from './element';

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.0](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.3.3...v0.4.0) (2024-07-14)
+
+### Features
+
+- implement polyline component ([38b97a0](https://github.com/AbolhasanAshori/react-neshan-map/commit/38b97a0d58f0eab55c3238c820eada8c592f7196))
+
 ## [0.3.3](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.3.2...v0.3.3) (2024-07-02)
 
 ### Bug Fixes

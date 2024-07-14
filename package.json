@@ -1,6 +1,6 @@
 {
   "name": "@abolhasanashori/react-neshan-map",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Unofficial React wrapper for neshan-mapbox-sdk",
   "keywords": [
     "react",

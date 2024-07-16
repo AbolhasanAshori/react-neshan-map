@@ -18,7 +18,8 @@
     "precommit": "lint-staged",
     "prepare": "husky",
     "prettier": "prettier --check \"**/*.{ts,tsx,md}\"",
-    "prettier:fix": "prettier --write \"**/*.{ts,tsx,md}\""
+    "prettier:fix": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "release": "commit-and-tag-version -a"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

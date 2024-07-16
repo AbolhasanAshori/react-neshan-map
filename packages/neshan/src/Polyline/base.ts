@@ -1,10 +1,14 @@
-import { GeoJSONSource } from 'mapbox-gl';
 import Layer from '@/layer';
 import { generateId, pickResult } from '@/util';
 import { isFlat } from './util';
 import type { LayerOptions } from '@/layer';
 import type { LngLat } from '@/types';
-import type { LineLayer, LineLayout, LinePaint } from 'mapbox-gl';
+import type {
+  GeoJSONSourceRaw,
+  LineLayer,
+  LineLayout,
+  LinePaint,
+} from 'mapbox-gl';
 
 interface PolylineTransitionOptions {
   opacity?: LinePaint['line-opacity-transition'];
@@ -35,7 +39,7 @@ interface PolylineOptions extends LineLayout, LayerOptions {
 
 type PolylineType = PolyLine;
 
-class PolyLine extends Layer<LineLayer, GeoJSONSource> {
+class PolyLine extends Layer<LineLayer, GeoJSONSourceRaw> {
   private _lngLats: LngLat[] | LngLat[][];
 
   constructor(lngLats: LngLat[] | LngLat[][], options: PolylineOptions = {}) {
@@ -92,7 +96,8 @@ class PolyLine extends Layer<LineLayer, GeoJSONSource> {
           'line-width-transition': transitions?.width,
         },
       },
-      new GeoJSONSource({
+      {
+        type: 'geojson',
         data: {
           type: 'Feature',
           properties: {},
@@ -100,7 +105,7 @@ class PolyLine extends Layer<LineLayer, GeoJSONSource> {
             ? { type: 'LineString', coordinates: lngLats }
             : { type: 'MultiLineString', coordinates: lngLats },
         },
-      }),
+      },
       {
         sourceId,
         layerId,
@@ -121,12 +126,16 @@ class PolyLine extends Layer<LineLayer, GeoJSONSource> {
   }
 
   private _updateSource(lngLats: LngLat[] | LngLat[][]): this {
-    this.getSource().setData({
-      type: 'Feature',
-      properties: {},
-      geometry: isFlat(lngLats)
-        ? { type: 'LineString', coordinates: lngLats }
-        : { type: 'MultiLineString', coordinates: lngLats },
+    this.getSource();
+    this._setSource({
+      ...this.getSource(),
+      data: {
+        type: 'Feature',
+        properties: {},
+        geometry: isFlat(lngLats)
+          ? { type: 'LineString', coordinates: lngLats }
+          : { type: 'MultiLineString', coordinates: lngLats },
+      },
     });
     return this;
   }

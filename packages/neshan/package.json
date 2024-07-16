@@ -1,0 +1,65 @@
+{
+  "name": "@abolhasanashori/react-neshan-map",
+  "version": "0.4.1",
+  "private": false,
+  "description": "Unofficial React wrapper for neshan-mapbox-sdk",
+  "keywords": [
+    "react",
+    "react18",
+    "neshan",
+    "map",
+    "neshan-maps-platform",
+    "mapbox",
+    "mapbox-gl"
+  ],
+  "bugs": {
+    "url": "https://github.com/AbolhasanAshori/react-neshan-map/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbolhasanAshori/react-neshan-map.git",
+    "directory": "packages/neshan"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Abolhasan Ashori",
+    "email": "abolhasan.ashori@gmail.com",
+    "url": "https://hasanthedev.ir"
+  },
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "scripts": {
+    "prebuild": "rimraf build",
+    "build": "tsup",
+    "postbuild": "node ../../scripts/copyFiles.mjs",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "tsup": "^8.1.0",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "@neshan-maps-platform/mapbox-gl": "1.1.3",
+    "@types/mapbox-gl": "2.7.21",
+    "@types/react": "^17.0.0 || ^18.0.0",
+    "@types/react-dom": "^17.0.0 || ^18.0.0",
+    "mapbox-gl": "1.13.2",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/mapbox-gl": {
+      "optional": true
+    },
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-dom": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "build"
+  }
+}

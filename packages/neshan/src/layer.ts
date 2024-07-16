@@ -67,6 +67,16 @@ class Layer<L extends AnyLayer, S extends AnySourceData> implements LayerImpl {
     map.removeSource(this._sourceId);
     return this;
   }
+
+  protected _setSource(source: S): this {
+    this._source = source;
+    return this;
+  }
+
+  protected _setLayer(layer: L): this {
+    this._layer = layer;
+    return this;
+  }
 }
 
 function useLayerLifeCycle<L extends LayerImpl>(

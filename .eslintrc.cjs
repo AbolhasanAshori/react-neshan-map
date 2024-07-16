@@ -1,24 +1,25 @@
 const { resolve } = require('node:path');
 
-const project = resolve(__dirname, 'tsconfig.json');
+const project = resolve(process.cwd(), 'tsconfig.json');
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: [
-    '@vercel/style-guide/eslint/browser',
-    '@vercel/style-guide/eslint/typescript',
-    '@vercel/style-guide/eslint/react',
-  ].map(require.resolve),
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project,
-    tsconfigRootDir: __dirname,
-  },
+  root: true,
+  extends: ['eslint:recommended', 'prettier', 'eslint-config-turbo'],
+  plugins: ['only-warn'],
   globals: {
+    React: true,
     JSX: true,
   },
-  plugins: ['only-warn'],
-
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: [project],
+  },
+  env: {
+    es6: true,
+    node: true,
+  },
   settings: {
     'import/resolver': {
       typescript: {
@@ -26,47 +27,15 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['node_modules/', 'dist/', '.eslintrc.cjs', '**/*.css'],
-  rules: {
-    '@typescript-eslint/consistent-type-imports': 'error',
-    '@typescript-eslint/consistent-type-exports': 'error',
-    '@typescript-eslint/no-empty-interface': [
-      'error',
-      {
-        allowSingleExtends: true,
-      },
-    ],
-    'import/consistent-type-specifier-style': 'error',
-    'import/no-default-export': 'off',
-    'import/order': [
-      'warn',
-      {
-        groups: [
-          'builtin', // Node.js built-in modules
-          'external', // Packages
-          'internal', // Aliased modules
-          'parent', // Relative parent
-          'sibling', // Relative sibling
-          'index', // Relative index,
-          'object',
-          'unknown',
-          'type', // Types (Typescript & Flow)
-        ],
-        'newlines-between': 'never',
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
-      },
-    ],
-    'unicorn/filename-case': [
-      'error',
-      {
-        cases: {
-          camelCase: true,
-          pascalCase: true,
-        },
-      },
-    ],
-  },
+  ignorePatterns: [
+    // Ignore dotfiles
+    '.*.js',
+    'node_modules/',
+    'dist/',
+  ],
+  overrides: [
+    {
+      files: ['*.js?(x)', '*.ts?(x)'],
+    },
+  ],
 };

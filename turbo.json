@@ -1,5 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": ["NODE_AUTH_TOKEN"],
+  "globalEnv": ["NODE_AUTH_TOKEN"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -8,6 +10,11 @@
     "dev": {
       "persistent": true,
       "cache": false
+    },
+    "publish": {
+      "cache": false,
+      "passThroughEnv": ["NODE_AUTH_TOKEN"],
+      "env": ["NODE_AUTH_TOKEN"]
     }
   }
 }

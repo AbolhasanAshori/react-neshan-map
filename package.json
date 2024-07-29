@@ -10,15 +10,16 @@
     "url": "https://hasanthedev.ir"
   },
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo run build",
     "commitlint": "commitlint --edit",
-    "dev": "turbo dev",
+    "dev": "turbo run dev",
     "eslint": "eslint . --cache --report-unused-disable-directives --ext ts,tsx --max-warnings 0",
     "eslint:fix": "eslint . --fix --ext ts,tsx",
     "precommit": "lint-staged",
     "prepare": "husky",
     "prettier": "prettier --check \"**/*.{ts,tsx,md}\"",
     "prettier:fix": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "publish": "turbo run publish",
     "release": "commit-and-tag-version -a"
   },
   "devDependencies": {

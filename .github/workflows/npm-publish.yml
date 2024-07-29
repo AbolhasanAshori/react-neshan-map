@@ -11,6 +11,9 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -19,7 +22,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.5.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,10 +34,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run build
-        run: pnpm run build
-
       - name: Publish to npm
-        run: pnpm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm run publish -- --no-git-checks

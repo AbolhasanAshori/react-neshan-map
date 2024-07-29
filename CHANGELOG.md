@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.2](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.4.1...v0.4.2) (2024-07-29)
+
+### Features
+
+- change the project into monorepo using turborepo ([#10](https://github.com/AbolhasanAshori/react-neshan-map/issues/10)) ([96cd4f2](https://github.com/AbolhasanAshori/react-neshan-map/commit/96cd4f2d08e7f4b009133ac50fd804745caa54e7)), closes [#7](https://github.com/AbolhasanAshori/react-neshan-map/issues/7) [#1](https://github.com/AbolhasanAshori/react-neshan-map/issues/1)
+- **ci:** update workflow file to monorepo config ([1e84461](https://github.com/AbolhasanAshori/react-neshan-map/commit/1e84461e47255575f52ecabf81f2dc04be98af53))
+
+### Bug Fixes
+
+- add package version bump ([73b7de5](https://github.com/AbolhasanAshori/react-neshan-map/commit/73b7de58519e665c29f01dc4f067336c86550328))
+- delay map content after map load ([9bca6fd](https://github.com/AbolhasanAshori/react-neshan-map/commit/9bca6fd006004cd844db755825dcd61b8de217d4)), closes [#4](https://github.com/AbolhasanAshori/react-neshan-map/issues/4)
+
 ## [0.4.1](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.4.0...v0.4.1) (2024-07-14)
 
 ### Bug Fixes

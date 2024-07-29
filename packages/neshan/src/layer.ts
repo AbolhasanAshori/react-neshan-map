@@ -16,11 +16,11 @@ interface LayerOptions {
 }
 
 class Layer<L extends AnyLayer, S extends AnySourceData> implements LayerImpl {
-  private _map: Map | null | undefined;
-  private _layerId: string;
-  private _sourceId: string;
-  private _source: S;
-  private _layer: L;
+  protected _map: Map | null | undefined;
+  protected _layerId: string;
+  protected _sourceId: string;
+  protected _source: S;
+  protected _layer: L;
 
   constructor(
     layer: PartiallyOptional<L, 'id'>,
@@ -34,13 +34,9 @@ class Layer<L extends AnyLayer, S extends AnySourceData> implements LayerImpl {
   }
 
   addTo(map: Map): this {
-    if (map === this._map) return this;
-
     this._map = map;
-    this._map.addLayer(this._layer);
-    this._map.addSource(this._sourceId, this._source);
 
-    return this;
+    return this._init();
   }
 
   getSource(): S {
@@ -65,6 +61,19 @@ class Layer<L extends AnyLayer, S extends AnySourceData> implements LayerImpl {
 
     map.removeLayer(this._layerId);
     map.removeSource(this._sourceId);
+    return this;
+  }
+
+  reset(): this {
+    return this.remove()._init();
+  }
+
+  protected _init(): this {
+    const map = this._map;
+    if (!map) return this;
+    map.addSource(this._sourceId, this._source);
+    map.addLayer(this._layer);
+
     return this;
   }
 

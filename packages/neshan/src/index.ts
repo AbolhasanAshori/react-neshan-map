@@ -38,6 +38,7 @@ export type { PopupProps, PopupType } from './Popup';
 export { Polyline, PolylineClass, isFlat } from './Polyline';
 export type {
   PolylineType,
+  PolylineStyle,
   PolylineProps,
   PolylineOptions,
   PolylineTransitionOptions,

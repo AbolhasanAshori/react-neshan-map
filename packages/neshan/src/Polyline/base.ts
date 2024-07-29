@@ -1,5 +1,5 @@
 import Layer from '@/layer';
-import { generateId, pickResult } from '@/util';
+import { generateId, pickResult, removeUndefined } from '@/util';
 import { isFlat } from './util';
 import type { LayerOptions } from '@/layer';
 import type { LngLat } from '@/types';
@@ -9,6 +9,59 @@ import type {
   LineLayout,
   LinePaint,
 } from 'mapbox-gl';
+
+function getStyles(options: PolylineStyleOptions): PolylineStyle {
+  const [layout] = pickResult(options, [
+    'line-cap',
+    'line-join',
+    'line-miter-limit',
+    'line-round-limit',
+    'line-sort-key',
+    'visibility',
+  ]);
+  const {
+    blur,
+    color,
+    dasharray,
+    gapWidth,
+    gradient,
+    offset,
+    opacity,
+    pattern,
+    translate,
+    width,
+    translateAnchor,
+    transitions,
+  } = options;
+
+  const paint: LinePaint = removeUndefined({
+    'line-blur': blur,
+    'line-color': color,
+    'line-dasharray': dasharray,
+    'line-gap-width': gapWidth,
+    'line-gradient': gradient,
+    'line-offset': offset,
+    'line-opacity': opacity,
+    'line-pattern': pattern,
+    'line-translate': translate,
+    'line-translate-anchor': translateAnchor,
+    'line-width': width,
+    'line-blur-transition': transitions?.blur,
+    'line-color-transition': transitions?.color,
+    'line-dasharray-transition': transitions?.dasharray,
+    'line-gap-width-transition': transitions?.gapWidth,
+    'line-offset-transition': transitions?.offset,
+    'line-opacity-transition': transitions?.opacity,
+    'line-pattern-transition': transitions?.pattern,
+    'line-translate-transition': transitions?.translate,
+    'line-width-transition': transitions?.width,
+  });
+
+  return {
+    layout: { 'line-cap': 'round', 'line-join': 'round', ...layout },
+    paint,
+  };
+}
 
 interface PolylineTransitionOptions {
   opacity?: LinePaint['line-opacity-transition'];
@@ -22,7 +75,7 @@ interface PolylineTransitionOptions {
   pattern?: LinePaint['line-pattern-transition'];
 }
 
-interface PolylineOptions extends LineLayout, LayerOptions {
+interface PolylineStyleOptions extends LineLayout {
   opacity?: LinePaint['line-opacity'];
   color?: LinePaint['line-color'];
   dasharray?: LinePaint['line-dasharray'];
@@ -37,64 +90,26 @@ interface PolylineOptions extends LineLayout, LayerOptions {
   transitions?: PolylineTransitionOptions;
 }
 
-type PolylineType = PolyLine;
+interface PolylineOptions extends PolylineStyleOptions, LayerOptions {}
 
-class PolyLine extends Layer<LineLayer, GeoJSONSourceRaw> {
+interface PolylineStyle {
+  layout: LineLayout;
+  paint: LinePaint;
+}
+
+type PolylineType = Polyline;
+
+class Polyline extends Layer<LineLayer, GeoJSONSourceRaw> {
   private _lngLats: LngLat[] | LngLat[][];
 
   constructor(lngLats: LngLat[] | LngLat[][], options: PolylineOptions = {}) {
-    const [layout, other] = pickResult(options, [
-      'line-cap',
-      'line-join',
-      'line-miter-limit',
-      'line-round-limit',
-      'line-sort-key',
-      'visibility',
-    ]);
-    const {
-      layerId,
-      sourceId = generateId(),
-      blur,
-      color,
-      dasharray,
-      gapWidth,
-      gradient,
-      offset,
-      opacity,
-      pattern,
-      translate,
-      width,
-      translateAnchor,
-      transitions,
-    } = other;
+    const { layerId, sourceId = generateId(), ...styleOptions } = options;
 
     super(
       {
         type: 'line',
         source: sourceId,
-        layout: { 'line-cap': 'round', 'line-join': 'round', ...layout },
-        paint: {
-          'line-blur': blur,
-          'line-color': color,
-          'line-dasharray': dasharray,
-          'line-gap-width': gapWidth,
-          'line-gradient': gradient,
-          'line-offset': offset,
-          'line-opacity': opacity,
-          'line-pattern': pattern,
-          'line-translate': translate,
-          'line-translate-anchor': translateAnchor,
-          'line-width': width,
-          'line-blur-transition': transitions?.blur,
-          'line-color-transition': transitions?.color,
-          'line-dasharray-transition': transitions?.dasharray,
-          'line-gap-width-transition': transitions?.gapWidth,
-          'line-offset-transition': transitions?.offset,
-          'line-opacity-transition': transitions?.opacity,
-          'line-pattern-transition': transitions?.pattern,
-          'line-translate-transition': transitions?.translate,
-          'line-width-transition': transitions?.width,
-        },
+        ...getStyles(styleOptions),
       },
       {
         type: 'geojson',
@@ -125,10 +140,22 @@ class PolyLine extends Layer<LineLayer, GeoJSONSourceRaw> {
     return this;
   }
 
+  setStyles(options: PolylineStyleOptions): this {
+    const styles = getStyles(options);
+
+    return this._updateLayer(styles);
+  }
+
+  private _updateLayer(styles: PolylineStyle): this {
+    return this._setLayer({
+      ...this._layer,
+      ...styles,
+    }).reset();
+  }
+
   private _updateSource(lngLats: LngLat[] | LngLat[][]): this {
-    this.getSource();
-    this._setSource({
-      ...this.getSource(),
+    return this._setSource({
+      ...this._source,
       data: {
         type: 'Feature',
         properties: {},
@@ -136,10 +163,14 @@ class PolyLine extends Layer<LineLayer, GeoJSONSourceRaw> {
           ? { type: 'LineString', coordinates: lngLats }
           : { type: 'MultiLineString', coordinates: lngLats },
       },
-    });
-    return this;
+    }).reset();
   }
 }
 
-export default PolyLine;
-export type { PolylineOptions, PolylineType, PolylineTransitionOptions };
+export default Polyline;
+export type {
+  PolylineOptions,
+  PolylineStyle,
+  PolylineType,
+  PolylineTransitionOptions,
+};

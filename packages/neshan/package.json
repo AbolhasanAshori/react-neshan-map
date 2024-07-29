@@ -32,7 +32,7 @@
     "prebuild": "rimraf build",
     "build": "tsup",
     "postbuild": "node ../../scripts/copyFiles.mjs",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch --onSuccess \"pnpm run postbuild\""
   },
   "devDependencies": {
     "tsup": "^8.1.0",

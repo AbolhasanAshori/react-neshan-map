@@ -42,3 +42,17 @@ export function pickResult<T extends object, P extends keyof T>(
 
   return [picked, remain];
 }
+
+export function removeUndefined<T extends object>(obj: T): T {
+  const result = {} as T;
+
+  Object.keys(obj).forEach(key => {
+    const value = obj[key as keyof T];
+
+    if (value !== undefined) {
+      result[key as keyof T] = value as T[keyof T];
+    }
+  });
+
+  return result;
+}

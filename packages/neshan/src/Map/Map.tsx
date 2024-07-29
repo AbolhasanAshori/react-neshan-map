@@ -46,6 +46,7 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
   // eslint-disable-next-line react-hooks/exhaustive-deps -- these props usually doesn't change
   const containerProps = useMemo(() => ({ className, id, style }), []);
   const [context, setContext] = useState<MapContextInterface | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useImperativeHandle(ref as Ref<MapType | null>, () => context?.map ?? null, [
     context,
@@ -91,13 +92,18 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
       map.addControl(new FullscreenControl());
     }
 
+    map.once('load', () => {
+      setLoaded(true);
+    });
+
     setContext(createNeshanContext(map));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ref callback
   }, []);
 
-  const contents = context ? (
-    <MapProvider value={context}>{children}</MapProvider>
-  ) : null;
+  const contents =
+    loaded && context ? (
+      <MapProvider value={context}>{children}</MapProvider>
+    ) : null;
 
   return (
     <div {...containerProps} ref={mapRef}>

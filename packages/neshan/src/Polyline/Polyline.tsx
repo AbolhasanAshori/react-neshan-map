@@ -20,6 +20,37 @@ const Polyline = createLayerComponent<PolylineType, PolylineProps>(
     if (props.lngLats !== prevProps.lngLats) {
       polyline.setLatLngs(props.lngLats);
     }
+
+    if (
+      props.color !== prevProps.color ||
+      props.blur !== prevProps.blur ||
+      props.dasharray !== prevProps.dasharray ||
+      props.gapWidth !== prevProps.gapWidth ||
+      props.gradient !== prevProps.gradient ||
+      props.offset !== prevProps.offset ||
+      props.opacity !== prevProps.opacity ||
+      props.pattern !== prevProps.pattern ||
+      props.translate !== prevProps.translate ||
+      props.width !== prevProps.width ||
+      props.translateAnchor !== prevProps.translateAnchor ||
+      props['line-cap'] !== prevProps['line-cap'] ||
+      props['line-join'] !== prevProps['line-join'] ||
+      props['line-miter-limit'] !== prevProps['line-miter-limit'] ||
+      props['line-round-limit'] !== prevProps['line-round-limit'] ||
+      props['line-sort-key'] !== prevProps['line-sort-key'] ||
+      props.visibility !== prevProps.visibility ||
+      props.transitions?.blur !== prevProps.transitions?.blur ||
+      props.transitions?.color !== prevProps.transitions?.color ||
+      props.transitions?.dasharray !== prevProps.transitions?.dasharray ||
+      props.transitions?.gapWidth !== prevProps.transitions?.gapWidth ||
+      props.transitions?.offset !== prevProps.transitions?.offset ||
+      props.transitions?.opacity !== prevProps.transitions?.opacity ||
+      props.transitions?.pattern !== prevProps.transitions?.pattern ||
+      props.transitions?.translate !== prevProps.transitions?.translate ||
+      props.transitions?.width !== prevProps.transitions?.width
+    ) {
+      polyline.setStyles(props);
+    }
   }
 );
 

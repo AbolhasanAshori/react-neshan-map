@@ -1,4 +1,5 @@
 import {
+  Circle,
   LngLat,
   Map,
   MapProps,
@@ -61,8 +62,10 @@ function App() {
         ref={console.dir}
         color="#2C61C9"
         width={4}
-        lngLats={marks.map(({ lngLat }) => lngLat)}
-      />
+        lngLats={marks.map(({ lngLat }) => lngLat)}></Polyline>
+      {marks.map(({ lngLat }) => (
+        <Circle radius={5} lngLat={lngLat} color="#fff080" />
+      ))}
       <Polyline
         color="#fff080"
         width={4}

@@ -38,8 +38,17 @@ export type { PopupProps, PopupType } from './Popup';
 export { Polyline, PolylineClass, isFlat } from './Polyline';
 export type {
   PolylineType,
-  PolylineStyle,
+  PolylineStyleOptions,
   PolylineProps,
   PolylineOptions,
   PolylineTransitionOptions,
 } from './Polyline';
+
+export { Circle, CircleClass, isMultiPoint } from './Circle';
+export type {
+  CircleType,
+  CircleStyleOptions,
+  CircleProps,
+  CircleOptions,
+  CircleTransitionOptions,
+} from './Circle';

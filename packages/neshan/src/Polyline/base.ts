@@ -11,7 +11,23 @@ import type {
 } from 'mapbox-gl';
 
 function getStyles(options: PolylineStyleOptions): PolylineStyle {
-  const [layout] = pickResult(options, [
+  const [
+    layout,
+    {
+      blur,
+      color,
+      dasharray,
+      gapWidth,
+      gradient,
+      offset,
+      opacity,
+      pattern,
+      translate,
+      width,
+      translateAnchor,
+      transitions,
+    },
+  ] = pickResult(options, [
     'line-cap',
     'line-join',
     'line-miter-limit',
@@ -19,20 +35,6 @@ function getStyles(options: PolylineStyleOptions): PolylineStyle {
     'line-sort-key',
     'visibility',
   ]);
-  const {
-    blur,
-    color,
-    dasharray,
-    gapWidth,
-    gradient,
-    offset,
-    opacity,
-    pattern,
-    translate,
-    width,
-    translateAnchor,
-    transitions,
-  } = options;
 
   const paint: LinePaint = removeUndefined({
     'line-blur': blur,
@@ -169,8 +171,8 @@ class Polyline extends Layer<LineLayer, GeoJSONSourceRaw> {
 
 export default Polyline;
 export type {
-  PolylineOptions,
-  PolylineStyle,
   PolylineType,
+  PolylineOptions,
+  PolylineStyleOptions,
   PolylineTransitionOptions,
 };

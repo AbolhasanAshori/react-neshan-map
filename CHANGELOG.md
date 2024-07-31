@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.5.0](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.4.2...v0.5.0) (2024-07-31)
+
+### Features
+
+- implement circle component ([c82b383](https://github.com/AbolhasanAshori/react-neshan-map/commit/c82b38339ede39bd1573d45973401aabb4b76de2))
+
 ## [0.4.2](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.4.1...v0.4.2) (2024-07-29)
 
 ### Features

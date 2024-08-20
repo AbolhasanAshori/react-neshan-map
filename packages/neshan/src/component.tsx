@@ -1,5 +1,5 @@
 import { Marker } from '@neshan-maps-platform/mapbox-gl';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { MapProvider } from './context';
 import type { ComponentElementHook } from './element';
 import type { MapComponent } from './types';
@@ -9,9 +9,20 @@ function createContainerComponent<E, P extends PropsWithChildren>(
   useElement: ComponentElementHook<E, P>
 ): MapComponent<E, P> {
   function ContainerComponent(props: P, ref: Ref<E>): ReactNode {
+    const { children } = props;
     const { instance, context } = useElement(props).current;
+    const [mounted, setMounted] = useState(false);
 
     useImperativeHandle(ref, () => instance);
+
+    useEffect(() => {
+      setMounted(true);
+      return () => {
+        setMounted(false);
+      };
+    }, []);
+
+    const content = mounted ? children : null;
 
     return instance instanceof Marker ? (
       <MapProvider
@@ -19,10 +30,10 @@ function createContainerComponent<E, P extends PropsWithChildren>(
           ...context,
           marker: instance,
         }}>
-        {props.children}
+        {content}
       </MapProvider>
     ) : (
-      props.children
+      content
     );
   }
 

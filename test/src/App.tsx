@@ -4,11 +4,13 @@ import {
   Map,
   MapProps,
   MapType,
+  Marker,
   MarkerProps,
   Polyline,
+  Popup,
 } from '@abolhasanashori/react-neshan-map';
 import { MapStyleNameType } from '@neshan-maps-platform/mapbox-gl/dist/src/parameters/parameters';
-import { Attributes, useState } from 'react';
+import { Attributes, useEffect, useState } from 'react';
 import './App.css';
 
 const defaultProps = {
@@ -38,6 +40,15 @@ function generateMarkers(center: LngLat, count = 10): MarkerInstance[] {
   });
 }
 
+function generateMarker(center: LngLat): MarkerInstance {
+  const randomed = center.map(randomizer) as LngLat;
+
+  return {
+    key: randomed.join(','),
+    lngLat: randomed,
+  };
+}
+
 const markers: MarkerInstance[] = generateMarkers(defaultProps.center);
 
 function setMapToGlobal(map: MapType) {
@@ -46,7 +57,19 @@ function setMapToGlobal(map: MapType) {
 }
 
 function App() {
-  const [marks] = useState(markers);
+  const [marks, setMarks] = useState(markers);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMarks(prevMarks => [
+        ...prevMarks,
+        generateMarker(defaultProps.center),
+      ]);
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <Map
@@ -59,21 +82,16 @@ function App() {
       traffic={false}
       {...defaultProps}>
       <Polyline
-        ref={console.dir}
         color="#2C61C9"
         width={4}
-        lngLats={marks.map(({ lngLat }) => lngLat)}></Polyline>
-      {marks.map(({ lngLat }) => (
-        <Circle radius={5} lngLat={lngLat} color="#fff080" />
-      ))}
-      <Polyline
-        color="#fff080"
-        width={4}
-        lngLats={[
-          generateMarkers(defaultProps.center, 2).map(({ lngLat }) => lngLat),
-          generateMarkers(defaultProps.center, 2).map(({ lngLat }) => lngLat),
-        ]}
+        lngLats={marks.map(({ lngLat }) => lngLat)}
       />
+      {marks.map(({ lngLat, key }) => (
+        <Circle key={key} radius={5} lngLat={lngLat} color="#fff080" />
+      ))}
+      <Marker lngLat={marks.at(-1)!.lngLat}>
+        <Popup show>Hello World</Popup>
+      </Marker>
     </Map>
   );
 }

@@ -37,22 +37,13 @@ const Popup = createPopupComponent(
           setOpen?.(false);
         }
 
-        function handlePopupShow(): void {
-          marker?.getPopup().addTo(map);
-          map.off('load', handlePopupShow);
-        }
-
         if (marker === undefined) {
           if (lngLat !== undefined) {
             popup.setLngLat(lngLat);
           }
           popup.addTo(map);
         } else {
-          marker.setPopup(popup);
-          if (show && !popup.isOpen()) {
-            map.on('load', handlePopupShow);
-            marker.getPopup().addTo(map);
-          }
+          marker.setPopup(popup).togglePopup();
         }
 
         popup.on('open', handleOpen);
@@ -61,7 +52,6 @@ const Popup = createPopupComponent(
         return function removePopup() {
           popup.off('open', handleOpen);
           popup.off('close', handleClose);
-          map.off('load', handlePopupShow);
           marker?.setPopup(undefined);
           popup.remove();
         };

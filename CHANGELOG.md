@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.5.1](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.5.0...v0.5.1) (2024-08-20)
+
+### Bug Fixes
+
+- fix marker popup display issue ([349943d](https://github.com/AbolhasanAshori/react-neshan-map/commit/349943d72de9f4ad58d566e85ab2adfed913645f))
+
 ## [0.5.0](https://github.com/AbolhasanAshori/react-neshan-map/compare/v0.4.2...v0.5.0) (2024-07-31)
 
 ### Features

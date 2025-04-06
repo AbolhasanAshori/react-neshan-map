@@ -1,5 +1,3 @@
-import type { ForwardRefExoticComponent, RefAttributes } from 'react';
-
 // base types
 /**
  * Remove properties `K` from `T`.
@@ -20,7 +18,3 @@ export type PartiallyOptional<T, K extends keyof T> = DistributiveOmit<T, K> & {
 };
 
 export type LngLat = [number, number];
-
-export type MapComponent<E, P> = ForwardRefExoticComponent<
-  P & RefAttributes<E>
->;

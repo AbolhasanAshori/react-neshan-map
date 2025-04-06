@@ -36,12 +36,13 @@ module.exports = {
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
-    '@typescript-eslint/no-empty-interface': [
+    '@typescript-eslint/no-empty-object-type': [
       'error',
       {
-        allowSingleExtends: true,
+        allowInterfaces: 'with-single-extends',
       },
     ],
+    '@typescript-eslint/explicit-function-return-type': 'off',
     'import/consistent-type-specifier-style': 'error',
     'import/no-default-export': 'off',
     'import/order': [

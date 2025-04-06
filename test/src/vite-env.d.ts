@@ -10,6 +10,7 @@ type EnvFields =
 type EnvBuilder<T> = {
   readonly [P in T]: string;
 };
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- intended
 interface ImportMetaEnv extends EnvBuilder<EnvFields> {}
 
 interface ImportMeta {

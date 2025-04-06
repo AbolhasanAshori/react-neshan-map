@@ -1,1 +1,1 @@
-pnpm run precommit
+node --run precommit

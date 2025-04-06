@@ -3,7 +3,6 @@ import {
   Map as NmpMap,
 } from '@neshan-maps-platform/mapbox-gl';
 import {
-  forwardRef,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -11,25 +10,25 @@ import {
   useState,
   useMemo,
 } from 'react';
-import { MapProvider, createNeshanContext } from '@/context';
+import { createNeshanContext, MapContext } from '@/context';
 import type { MapContextInterface } from '@/context';
 import type { MapBoxSKDOptionsModel } from '@neshan-maps-platform/mapbox-gl/dist/src/parameters/parameters';
 import type { Map as MbMap } from 'mapbox-gl';
-import type { CSSProperties, PropsWithChildren, Ref } from 'react';
+import type { CSSProperties, PropsWithChildren, RefAttributes } from 'react';
 import '@neshan-maps-platform/mapbox-gl/dist/NeshanMapboxGl.css';
 
 type MapType = MbMap;
 
 interface MapProps
   extends Omit<MapBoxSKDOptionsModel, 'container' | 'style'>,
-    PropsWithChildren {
+    PropsWithChildren<RefAttributes<MapType | null>> {
   style?: CSSProperties;
   id?: string;
   className?: string;
   fullscreen?: boolean;
 }
 
-const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
+function Map(props: MapProps) {
   const {
     children,
     style,
@@ -40,6 +39,7 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
     minZoom,
     maxZoom,
     fullscreen,
+    ref,
     ...options
   } = props;
   const propsRef = useRef(props);
@@ -48,9 +48,11 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
   const [context, setContext] = useState<MapContextInterface | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  useImperativeHandle(ref as Ref<MapType | null>, () => context?.map ?? null, [
-    context,
-  ]);
+  useImperativeHandle<MapType | null, MapType | null>(
+    ref,
+    () => context?.map ?? null,
+    [context]
+  );
 
   useEffect(() => {
     const map = context?.map as unknown as MbMap | undefined;
@@ -102,7 +104,7 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
 
   const contents =
     loaded && context ? (
-      <MapProvider value={context}>{children}</MapProvider>
+      <MapContext value={context}>{children}</MapContext>
     ) : null;
 
   return (
@@ -110,7 +112,7 @@ const Map = forwardRef<MapType | null, MapProps>(function Map(props, ref) {
       {contents}
     </div>
   );
-});
+}
 
 export default Map;
 export type { MapType, MapProps };

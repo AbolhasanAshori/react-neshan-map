@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 import type { Map, Marker as NmpMarker } from 'mapbox-gl';
 import type { Context } from 'react';
 
@@ -12,7 +12,7 @@ function createNeshanContext(map: Map): MapContextInterface {
 }
 
 function useNeshanContext(): MapContextInterface {
-  const context = useContext(MapContext);
+  const context = use(MapContext);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- intended runtime check
   if (context === null)
@@ -26,7 +26,6 @@ function useNeshanContext(): MapContextInterface {
 const MapContext = createContext(
   null
 ) as unknown as Context<MapContextInterface>;
-const MapProvider = MapContext.Provider;
 
-export { createNeshanContext, useNeshanContext, MapContext, MapProvider };
+export { createNeshanContext, useNeshanContext, MapContext };
 export type { MapContextInterface };

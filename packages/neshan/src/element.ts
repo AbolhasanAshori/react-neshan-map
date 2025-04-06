@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { MapContextInterface } from './context';
 import type { DisclosureFn } from './ref';
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, RefObject } from 'react';
 
 interface MapElement<T> {
   readonly instance: T;
@@ -11,12 +11,12 @@ interface MapElement<T> {
 type ComponentElementHook<E, P> = (
   props: P,
   setOpen?: DisclosureFn
-) => MutableRefObject<MapElement<E>>;
+) => RefObject<MapElement<E>>;
 
 type ElementHook<E, P> = (
   props: P,
   context: MapContextInterface
-) => MutableRefObject<MapElement<E>>;
+) => RefObject<MapElement<E>>;
 
 type CreateElementFn<E, P> = (
   props: P,
@@ -26,7 +26,7 @@ type UpdateElementFn<E, P> = (instance: E, props: P, prevProps: P) => void;
 type ElementHookResult<E, P> = (
   props: P,
   context: MapContextInterface
-) => MutableRefObject<MapElement<E>>;
+) => RefObject<MapElement<E>>;
 
 function createElementHook<E, P>(
   createElement: CreateElementFn<E, P>,
@@ -34,13 +34,13 @@ function createElementHook<E, P>(
 ): ElementHookResult<E, P> {
   if (updateElement === undefined) {
     return function useImmutableNeshanElement(props, context) {
-      const elementRef = useRef<MapElement<E>>();
+      const elementRef = useRef<MapElement<E>>(undefined);
       elementRef.current ??= createElement(props, context);
-      return elementRef as MutableRefObject<MapElement<E>>;
+      return elementRef as RefObject<MapElement<E>>;
     };
   }
   return function useMutableNeshanElement(props, context) {
-    const elementRef = useRef<MapElement<E>>();
+    const elementRef = useRef<MapElement<E>>(undefined);
     elementRef.current ??= createElement(props, context);
     const propsRef = useRef(props);
     const { instance } = elementRef.current;

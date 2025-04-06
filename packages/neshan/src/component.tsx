@@ -1,15 +1,15 @@
 import { Marker } from '@neshan-maps-platform/mapbox-gl';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { MapProvider } from './context';
+import { useEffect, useImperativeHandle, useState } from 'react';
+import { MapContext } from './context';
 import type { ComponentElementHook } from './element';
-import type { MapComponent } from './types';
-import type { PropsWithChildren, ReactNode, Ref } from 'react';
+import type { PropsWithChildren, RefAttributes } from 'react';
 
-function createContainerComponent<E, P extends PropsWithChildren>(
-  useElement: ComponentElementHook<E, P>
-): MapComponent<E, P> {
-  function ContainerComponent(props: P, ref: Ref<E>): ReactNode {
-    const { children } = props;
+function createContainerComponent<
+  E,
+  P extends PropsWithChildren<RefAttributes<E>>,
+>(useElement: ComponentElementHook<E, P>) {
+  function ContainerComponent(props: P) {
+    const { children, ref } = props;
     const { instance, context } = useElement(props).current;
     const [mounted, setMounted] = useState(false);
 
@@ -25,19 +25,19 @@ function createContainerComponent<E, P extends PropsWithChildren>(
     const content = mounted ? children : null;
 
     return instance instanceof Marker ? (
-      <MapProvider
+      <MapContext
         value={{
           ...context,
           marker: instance,
         }}>
         {content}
-      </MapProvider>
+      </MapContext>
     ) : (
       content
     );
   }
 
-  return forwardRef(ContainerComponent) as MapComponent<E, P>;
+  return ContainerComponent;
 }
 
 export { createContainerComponent };

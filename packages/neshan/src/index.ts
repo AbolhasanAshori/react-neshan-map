@@ -1,9 +1,4 @@
-export {
-  MapContext,
-  MapProvider,
-  useNeshanContext,
-  createNeshanContext,
-} from './context';
+export { MapContext, useNeshanContext, createNeshanContext } from './context';
 export type { MapContextInterface } from './context';
 
 export { createMapElement, createElementHook } from './element';
@@ -24,7 +19,7 @@ export { createLayerComponent } from './generic';
 export { default as Layer, useLayerLifeCycle } from './layer';
 export type { LayerOptions, LayerImpl } from './layer';
 
-export type { LngLat, MapComponent } from './types';
+export type { LngLat } from './types';
 
 export { Map } from './Map';
 export type { MapProps, MapType } from './Map';
